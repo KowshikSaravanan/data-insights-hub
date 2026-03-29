@@ -1,15 +1,33 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, Download } from "lucide-react";
+import { Mail, Linkedin, Github, Send, Download, FileText, BookOpen } from "lucide-react";
+import ResumeModal from "@/components/ResumeModal";
+
+type Status = "idle" | "loading" | "success" | "error";
 
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<Status>("idle");
+  const [resumeOpen, setResumeOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder – hook up to backend
-    alert("Thank you for reaching out! I'll get back to you soon.");
-    setForm({ name: "", email: "", message: "" });
+    setStatus("loading");
+    try {
+      const res = await fetch(import.meta.env.VITE_FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -73,12 +91,26 @@ const ContactSection = () => {
                 required
               />
             </div>
+            {status === "success" && (
+              <p className="text-sm text-green-400 text-center">Message sent! I'll get back to you soon.</p>
+            )}
+            {status === "error" && (
+              <p className="text-sm text-red-400 text-center">Something went wrong. Please try again.</p>
+            )}
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
+              disabled={status === "loading"}
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <Send size={16} />
-              Send Message
+              {status === "loading" ? (
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+              ) : (
+                <Send size={16} />
+              )}
+              {status === "loading" ? "Sending..." : "Send Message"}
             </button>
           </motion.form>
 
@@ -99,9 +131,10 @@ const ContactSection = () => {
 
               <div className="space-y-3">
                 {[
-                  { icon: Mail, label: "kowshik@example.com", href: "mailto:kowshik@example.com" },
-                  { icon: Linkedin, label: "LinkedIn Profile", href: "https://www.linkedin.com/in/kowshik-saravanan-b51864194/" },
-                  { icon: Github, label: "GitHub Profile", href: "#" },
+                  { icon: Mail, label: "kowshiksaravanan@outlook.com", href: "mailto:kowshiksaravanan@outlook.com" },
+                  { icon: Linkedin, label: "kowshik-saravanan", href: "https://www.linkedin.com/in/kowshik-saravanan-b51864194/" },
+                  { icon: Github, label: "KowshikSaravanan", href: "https://github.com/KowshikSaravanan" },
+                  { icon: BookOpen, label: "@kowshiksaravanan", href: "https://medium.com/@kowshiksaravanan" },
                 ].map((link) => (
                   <a
                     key={link.label}
@@ -119,17 +152,28 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* Download resume */}
-            <a
-              href="#"
-              className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg glass text-foreground font-semibold hover:border-primary/50 transition-all"
-            >
-              <Download size={18} />
-              Download Resume (PDF)
-            </a>
+            {/* Resume actions */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setResumeOpen(true)}
+                className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg glass text-foreground font-semibold hover:border-primary/50 transition-all"
+              >
+                <FileText size={18} />
+                View Resume
+              </button>
+              <a
+                href="/resume.pdf"
+                download="Kowshik_Saravanan_Resume.pdf"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
+              >
+                <Download size={18} />
+                Download PDF
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>
+      <ResumeModal open={resumeOpen} onOpenChange={setResumeOpen} />
     </section>
   );
 };

@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, FileText, Mail } from "lucide-react";
+import ResumeModal from "@/components/ResumeModal";
 
 const FloatingNode = ({ x, y, delay, size = 6 }: { x: string; y: string; delay: number; size?: number }) => (
   <motion.div
@@ -20,6 +22,8 @@ const FlowLine = ({ x1, y1, x2, y2, delay }: { x1: string; y1: string; x2: strin
 );
 
 const HeroSection = () => {
+  const [resumeOpen, setResumeOpen] = useState(false);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background grid */}
@@ -95,13 +99,13 @@ const HeroSection = () => {
               <Mail size={18} />
               Contact Me
             </a>
-            <a
-              href="#"
+            <button
+              onClick={() => setResumeOpen(true)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg glass text-foreground font-semibold hover:border-primary/50 transition-all"
             >
               <FileText size={18} />
               View Resume
-            </a>
+            </button>
           </motion.div>
         </motion.div>
 
@@ -113,6 +117,7 @@ const HeroSection = () => {
           <ArrowDown className="text-muted-foreground/50" size={24} />
         </motion.div>
       </div>
+      <ResumeModal open={resumeOpen} onOpenChange={setResumeOpen} />
     </section>
   );
 };

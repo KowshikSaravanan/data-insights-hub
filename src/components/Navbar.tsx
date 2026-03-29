@@ -25,11 +25,9 @@ const Navbar = () => {
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
-    if (saved) {
-      const dark = saved === "dark";
-      setIsDark(dark);
-      document.documentElement.classList.toggle("dark", dark);
-    }
+    const dark = saved ? saved === "dark" : true; // default dark
+    setIsDark(dark);
+    document.documentElement.classList.toggle("dark", dark);
   }, []);
 
   useEffect(() => {

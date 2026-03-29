@@ -70,7 +70,7 @@ const HeroSection = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Business Intelligence Engineer · Data Engineer · Analytics Engineer
+            Business Intelligence Engineer
           </motion.p>
 
           <motion.p

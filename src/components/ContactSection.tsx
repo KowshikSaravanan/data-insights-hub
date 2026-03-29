@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, Download } from "lucide-react";
+import { Mail, Linkedin, Github, Send, Download, FileText } from "lucide-react";
+import ResumeModal from "@/components/ResumeModal";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<Status>("idle");
+  const [resumeOpen, setResumeOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,17 +151,28 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* Download resume */}
-            <a
-              href="#"
-              className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg glass text-foreground font-semibold hover:border-primary/50 transition-all"
-            >
-              <Download size={18} />
-              Download Resume (PDF)
-            </a>
+            {/* Resume actions */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setResumeOpen(true)}
+                className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg glass text-foreground font-semibold hover:border-primary/50 transition-all"
+              >
+                <FileText size={18} />
+                View Resume
+              </button>
+              <a
+                href="/resume.pdf"
+                download="Kowshik_Saravanan_Resume.pdf"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
+              >
+                <Download size={18} />
+                Download PDF
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>
+      <ResumeModal open={resumeOpen} onOpenChange={setResumeOpen} />
     </section>
   );
 };

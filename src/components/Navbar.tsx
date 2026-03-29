@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -14,6 +14,23 @@ const navItems = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved) {
+      const dark = saved === "dark";
+      setIsDark(dark);
+      document.documentElement.classList.toggle("dark", dark);
+    }
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -45,6 +62,13 @@ const Navbar = () => {
               {item.label}
             </a>
           ))}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <a
             href="#contact"
             className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
@@ -54,12 +78,21 @@ const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-foreground"
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="text-foreground"
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

@@ -40,6 +40,7 @@ const Navbar = () => {
   }, []);
 
   return (
+    <>
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}

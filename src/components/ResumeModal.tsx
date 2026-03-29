@@ -20,7 +20,7 @@ const ResumeModal = ({ open, onOpenChange }: ResumeModalProps) => {
     if (!open) return;
     setLoaded(false);
     setPdfExists(null);
-    fetch("/resume.pdf", { method: "HEAD" })
+    fetch(import.meta.env.BASE_URL + "resume.pdf", { method: "HEAD" })
       .then((res) => setPdfExists(res.ok && res.headers.get("content-type")?.includes("pdf") !== false))
       .catch(() => setPdfExists(false));
   }, [open]);
@@ -34,7 +34,7 @@ const ResumeModal = ({ open, onOpenChange }: ResumeModalProps) => {
             {pdfExists && (
               <div className="flex items-center gap-2">
                 <a
-                  href="/resume.pdf"
+                  href={import.meta.env.BASE_URL + "resume.pdf"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
@@ -43,7 +43,7 @@ const ResumeModal = ({ open, onOpenChange }: ResumeModalProps) => {
                   Open in tab
                 </a>
                 <a
-                  href="/resume.pdf"
+                  href={import.meta.env.BASE_URL + "resume.pdf"}
                   download="Kowshik_Saravanan_Resume.pdf"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-opacity"
                 >
@@ -93,7 +93,7 @@ const ResumeModal = ({ open, onOpenChange }: ResumeModalProps) => {
                   </svg>
                   <span className="text-sm">Loading resume…</span>
                   <a
-                    href="/resume.pdf"
+                    href={import.meta.env.BASE_URL + "resume.pdf"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-primary underline underline-offset-2"
@@ -103,7 +103,7 @@ const ResumeModal = ({ open, onOpenChange }: ResumeModalProps) => {
                 </div>
               )}
               <iframe
-                src="/resume.pdf"
+                src={import.meta.env.BASE_URL + "resume.pdf"}
                 title="Kowshik Saravanan Resume"
                 className="w-full h-full rounded-b-lg"
                 onLoad={() => setLoaded(true)}

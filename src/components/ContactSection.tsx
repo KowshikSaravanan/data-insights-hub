@@ -14,7 +14,7 @@ const ContactSection = () => {
     e.preventDefault();
     setStatus("loading");
     try {
-      const res = await fetch(import.meta.env.VITE_FORMSPREE_ENDPOINT, {
+      const res = await fetch("https://formspree.io/f/mgopaldg", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(form),

@@ -121,6 +121,11 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </motion.nav>
+      <motion.div
+        style={{ scaleX }}
+        className="fixed top-16 left-0 right-0 z-50 h-0.5 bg-primary origin-left"
+      />
+    </>
   );
 };
 

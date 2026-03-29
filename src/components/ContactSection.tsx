@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, Download, FileText } from "lucide-react";
+import { Mail, Linkedin, Github, Send, Download, FileText, BookOpen } from "lucide-react";
 import ResumeModal from "@/components/ResumeModal";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -131,9 +131,10 @@ const ContactSection = () => {
 
               <div className="space-y-3">
                 {[
-                  { icon: Mail, label: "kowshik@example.com", href: "mailto:kowshik@example.com" },
-                  { icon: Linkedin, label: "LinkedIn Profile", href: "https://www.linkedin.com/in/kowshik-saravanan-b51864194/" },
-                  { icon: Github, label: "GitHub Profile", href: "#" },
+                  { icon: Mail, label: "kowshiksaravanan@outlook.com", href: "mailto:kowshiksaravanan@outlook.com" },
+                  { icon: Linkedin, label: "kowshik-saravanan", href: "https://www.linkedin.com/in/kowshik-saravanan-b51864194/" },
+                  { icon: Github, label: "KowshikSaravanan", href: "https://github.com/KowshikSaravanan" },
+                  { icon: BookOpen, label: "@kowshiksaravanan", href: "https://medium.com/@kowshiksaravanan" },
                 ].map((link) => (
                   <a
                     key={link.label}

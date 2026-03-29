@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
@@ -52,12 +52,8 @@ const ProjectsSection = () => (
             {/* Gradient header */}
             <div className={`h-2 bg-gradient-to-r ${project.color}`} />
             <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
+              <div className="mb-3">
                 <h3 className="text-lg font-bold group-hover:text-primary transition-colors">{project.title}</h3>
-                <div className="flex gap-2 text-muted-foreground">
-                  <a href="#" className="hover:text-primary transition-colors"><Github size={18} /></a>
-                  <a href="#" className="hover:text-primary transition-colors"><ExternalLink size={18} /></a>
-                </div>
               </div>
               <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{project.desc}</p>
               <p className="text-xs text-primary font-medium mb-4 flex items-center gap-1">

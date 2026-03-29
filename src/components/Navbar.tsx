@@ -12,6 +12,11 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
+const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  e.preventDefault();
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+};
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,7 +55,7 @@ const Navbar = () => {
       }`}
     >
       <div className="section-container flex items-center justify-between h-16">
-        <a href="#" className="text-xl font-bold text-gradient font-mono">
+        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="text-xl font-bold text-gradient font-mono">
           KS
         </a>
 
@@ -60,6 +65,7 @@ const Navbar = () => {
             <a
               key={item.href}
               href={item.href}
+              onClick={(e) => scrollTo(e, item.href.slice(1))}
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
             >
               {item.label}
@@ -74,6 +80,7 @@ const Navbar = () => {
           </button>
           <a
             href="#contact"
+            onClick={(e) => scrollTo(e, "contact")}
             className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Hire Me
@@ -112,7 +119,7 @@ const Navbar = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => { scrollTo(e, item.href.slice(1)); setMobileOpen(false); }}
                   className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
                 >
                   {item.label}

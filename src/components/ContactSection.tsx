@@ -2,14 +2,30 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Linkedin, Github, Send, Download } from "lucide-react";
 
+type Status = "idle" | "loading" | "success" | "error";
+
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<Status>("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder – hook up to backend
-    alert("Thank you for reaching out! I'll get back to you soon.");
-    setForm({ name: "", email: "", message: "" });
+    setStatus("loading");
+    try {
+      const res = await fetch(import.meta.env.VITE_FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -73,12 +89,26 @@ const ContactSection = () => {
                 required
               />
             </div>
+            {status === "success" && (
+              <p className="text-sm text-green-400 text-center">Message sent! I'll get back to you soon.</p>
+            )}
+            {status === "error" && (
+              <p className="text-sm text-red-400 text-center">Something went wrong. Please try again.</p>
+            )}
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
+              disabled={status === "loading"}
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <Send size={16} />
-              Send Message
+              {status === "loading" ? (
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+              ) : (
+                <Send size={16} />
+              )}
+              {status === "loading" ? "Sending..." : "Send Message"}
             </button>
           </motion.form>
 

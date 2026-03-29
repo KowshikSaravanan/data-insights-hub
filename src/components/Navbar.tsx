@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { Menu, X, Sun, Moon } from "lucide-react";
 
 const navItems = [
@@ -15,6 +15,9 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   const toggleTheme = () => {
     const next = !isDark;
@@ -37,6 +40,7 @@ const Navbar = () => {
   }, []);
 
   return (
+    <>
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -118,6 +122,11 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </motion.nav>
+      <motion.div
+        style={{ scaleX }}
+        className="fixed top-16 left-0 right-0 z-50 h-0.5 bg-primary origin-left"
+      />
+    </>
   );
 };
 

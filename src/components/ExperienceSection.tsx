@@ -1,24 +1,24 @@
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react";
+import { Briefcase, GraduationCap } from "lucide-react";
 
 const experiences = [
   {
     role: "Business Intelligence Engineer",
-    company: "Company Name",
-    period: "2023 – Present",
-    location: "India",
+    company: "Wall Street English",
+    period: "09/2021 – Present",
+    location: "Chennai, India",
     bullets: [
       "Architected end-to-end ELT pipelines processing 50M+ records daily using Apache Airflow and dbt",
-      "Reduced pipeline latency by 40% through optimized incremental models and partitioning strategies",
-      "Implemented Apache Iceberg table format, enabling time-travel queries and schema evolution",
-      "Built self-serve BI dashboards in Power BI and Metabase, empowering 30+ stakeholders",
+      "Built self-serve BI dashboards in Power BI and Metabase, empowering 30+ business stakeholders",
+      "Implemented incremental dbt models and partitioning strategies, reducing pipeline latency by 40%",
+      "Collaborated with cross-functional teams to define KPIs, data contracts, and reporting standards",
     ],
   },
   {
-    role: "Data Engineer",
-    company: "Previous Company",
-    period: "2021 – 2023",
-    location: "India",
+    role: "Associate Engineer",
+    company: "Wall Street English",
+    period: "09/2021 – 03/2024",
+    location: "Chennai, India",
     bullets: [
       "Designed and maintained 100+ dbt models with comprehensive testing and documentation",
       "Improved data reliability by 60% through automated data quality checks and alerting",
@@ -27,15 +27,24 @@ const experiences = [
     ],
   },
   {
-    role: "Junior Data Analyst",
-    company: "Early Career Company",
-    period: "2020 – 2021",
-    location: "India",
+    role: "Junior Software Developer",
+    company: "Shiash Info Solutions Private Limited",
+    period: "07/2021 – 09/2021",
+    location: "Chennai, India",
     bullets: [
-      "Developed SQL-based reporting pipelines for executive dashboards",
-      "Automated manual data processes using Python, saving 15+ hours weekly",
-      "Collaborated with cross-functional teams to define KPIs and data requirements",
+      "Developed and maintained backend features using SQL and Python for business applications",
+      "Automated manual data processing tasks, reducing repetitive effort by 15+ hours weekly",
+      "Collaborated with senior engineers to deliver bug fixes and feature enhancements on schedule",
     ],
+  },
+];
+
+const education = [
+  {
+    institution: "SMK Fomra Institute of Technology",
+    degree: "B.E, Computer Science",
+    period: "01/2016 – 12/2021",
+    location: "Chennai, India",
   },
 ];
 
@@ -93,6 +102,44 @@ const ExperienceSection = () => (
           </motion.div>
         ))}
       </div>
+
+      {/* Education */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mt-20"
+      >
+        <div className="flex items-center gap-3 mb-8">
+          <GraduationCap className="text-primary" size={22} />
+          <h2 className="text-2xl sm:text-3xl font-bold">
+            Education
+          </h2>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {education.map((edu, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.4 }}
+            >
+              <div className="glass rounded-xl p-6 hover:border-primary/40 transition-all h-full">
+                <div className="flex items-center gap-2 mb-3 text-primary">
+                  <GraduationCap size={15} />
+                  <span className="font-mono text-xs">{edu.period}</span>
+                </div>
+                <h3 className="text-base font-bold mb-1">{edu.institution}</h3>
+                <p className="text-sm text-muted-foreground">{edu.degree}</p>
+                <p className="text-xs text-muted-foreground mt-1">{edu.location}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   </section>
 );

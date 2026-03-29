@@ -16,6 +16,9 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
 
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
   const toggleTheme = () => {
     const next = !isDark;
     setIsDark(next);

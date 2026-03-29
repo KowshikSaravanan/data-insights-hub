@@ -162,7 +162,7 @@ const ContactSection = () => {
                 View Resume
               </button>
               <a
-                href="/resume.pdf"
+                href={import.meta.env.BASE_URL + "resume.pdf"}
                 download="Kowshik_Saravanan_Resume.pdf"
                 className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
               >

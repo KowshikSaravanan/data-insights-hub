@@ -34,7 +34,7 @@ function truncate(text: string, maxLength = 150): string {
 
 async function fetchMediumBlogs(): Promise<MediumBlog[]> {
   const rssUrl = encodeURIComponent("https://medium.com/feed/@kowshiksaravanan");
-  const url = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=20`;
+  const url = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch Medium RSS feed");
   const data: Rss2JsonResponse = await res.json();
